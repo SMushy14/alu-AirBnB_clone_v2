@@ -13,6 +13,7 @@ from models.user import User
     os.getenv('HBNB_TYPE_STORAGE') != 'db', 'DBStorage test')
 class TestDBStorage(unittest.TestCase):
     """ Class to test the database storage method """
+
     def test_new(self):
         """ New object is correctly added to database """
         new = User(

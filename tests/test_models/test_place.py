@@ -8,6 +8,7 @@ from models.place import Place
 
 class TestPlace(TestBasemodel):
     """Represents the tests for the Place model."""
+
     def __init__(self, *args, **kwargs):
         """Initializes the test class."""
         super().__init__(*args, **kwargs)

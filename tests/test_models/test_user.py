@@ -9,6 +9,7 @@ from models.user import User
 
 class TestUser(TestBasemodel):
     """Represents the tests for the User model."""
+
     def __init__(self, *args, **kwargs):
         """Initializes the test class."""
         super().__init__(*args, **kwargs)

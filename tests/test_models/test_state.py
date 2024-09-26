@@ -8,6 +8,7 @@ from models.state import State
 
 class TestState(TestBasemodel):
     """Represents the tests for the State model."""
+
     def __init__(self, *args, **kwargs):
         """Initializes the test class."""
         super().__init__(*args, **kwargs)

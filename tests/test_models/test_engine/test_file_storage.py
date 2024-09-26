@@ -11,6 +11,7 @@ from models.base_model import BaseModel
     os.getenv('HBNB_TYPE_STORAGE') == 'db', 'FileStorage test')
 class TestFileStorage(unittest.TestCase):
     """ Class to test the file storage method """
+
     def setUp(self):
         """ Set up test environment """
         del_list = []
