@@ -18,7 +18,7 @@ class BaseModel:
 
     def __init__(self, *args, **kwargs):
         """Instantiates a new model"""
-        expected_keys = ['id', 'created_at', 'updated_at']  # Add other expected keys if necessary
+        expected_keys = ['id', 'created_at', 'updated_at']
 
         if not kwargs:
             self.id = str(uuid.uuid4())
@@ -26,8 +26,7 @@ class BaseModel:
             self.updated_at = datetime.now()
         else:
             for key, value in kwargs.items():
-                if (key not in expected_keys and
-                    key != '__class__'):
+                if (key not in expected_keys and key != '__class__'):
                     raise KeyError(f"Unexpected key: {key}")
 
                 if key in ('created_at', 'updated_at'):
