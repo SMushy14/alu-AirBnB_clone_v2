@@ -26,13 +26,15 @@ class BaseModel:
             self.updated_at = datetime.now()
         else:
             for key, value in kwargs.items():
-                if (key not in expected_keys and 
+                if (key not in expected_keys and
                     key != '__class__'):
                     raise KeyError(f"Unexpected key: {key}")
+
                 if key in ('created_at', 'updated_at'):
                     setattr(self, key, datetime.fromisoformat(value))
                 else:
                     setattr(self, key, value)
+
             # if os.getenv('HBNB_TYPE_STORAGE') in ('db'):
             if not hasattr(kwargs, 'id'):
                 setattr(self, 'id', str(uuid.uuid4()))
