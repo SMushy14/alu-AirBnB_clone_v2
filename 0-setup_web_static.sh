@@ -1,18 +1,38 @@
 #!/usr/bin/env bash
-# Script that sets up my  web servers for the deployment of web_static
-sudo apt-get -y update
-sudo apt-get -y install nginx 
-sudo service nginx start
-# Creating parent directories
-sudo mkdir -p /data/web_static/shared/
-sudo mkdir -p /data/web_static/releases/test/
-# Creating a fake HTML file with simple content
-echo 'Rethics' | sudo tee /data/web_static/releases/test/index.html
-#Creating a symbolic link
+# Sets up a web server for deployment of web_static.
+
+apt-get update
+apt-get install -y nginx
+
+mkdir -p /data/web_static/releases/test/
+mkdir -p /data/web_static/shared/
+echo "Holberton School" > /data/web_static/releases/test/index.html
 ln -sf /data/web_static/releases/test/ /data/web_static/current
-# Giving ownership of the /data/ folder to the ubuntu user AND group
-sudo chown -R ubuntu:ubuntu /data/
-# Updating the Nginx configuration to serve the content of /data/web_static/current/ to hbnb_static
-sed -i "38i location /hbnb_static/ { alias /data/web_static/current/; }" /etc/nginx/sites-available/default
-# Restarting Nginx
-sudo service nginx restart
+
+chown -R ubuntu /data/
+chgrp -R ubuntu /data/
+
+printf %s "server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    add_header X-Served-By $HOSTNAME;
+    root   /var/www/html;
+    index  index.html index.htm;
+
+    location /hbnb_static {
+        alias /data/web_static/current;
+        index index.html index.htm;
+    }
+
+    location /redirect_me {
+        return 301 http://cuberule.com/;
+    }
+
+    error_page 404 /404.html;
+    location /404 {
+      root /var/www/html;
+      internal;
+    }
+}" > /etc/nginx/sites-available/default
+
+service nginx restart
