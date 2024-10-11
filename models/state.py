@@ -11,9 +11,11 @@ from models.city import City
 class State(BaseModel, Base):
     """ State class """
     __tablename__ = 'states'
-    name = Column(
-        String(128), nullable=False
-    ) if os.getenv('HBNB_TYPE_STORAGE') == 'db' else ''
+    
+    # Column definition only for DBStorage
+    name = Column(String(128), nullable=False) if os.getenv('HBNB_TYPE_STORAGE') == 'db' else ''
+
+    # Relationship for DBStorage
     if os.getenv('HBNB_TYPE_STORAGE') == 'db':
         cities = relationship(
             'City',
