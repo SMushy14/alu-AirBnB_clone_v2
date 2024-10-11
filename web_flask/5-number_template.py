@@ -10,7 +10,7 @@ of the text variable (replace underscore _ symbols with a space
 while default value of text is ~is cool and at /number/<n>
 display n is a number only if n is an integer"""
 
-from flask import Flask
+from flask import Flask, render_template
 
 my_app = Flask(__name__)
 
@@ -43,7 +43,7 @@ def number(n):
 
 @my_app.route('/number_template/<int:n>', strict_slashes=False)
 def html_page(n):
-    return "{}".format(n)
+    return render_template('5-number.html', n=n)
 
 if __name__ == "__main__":
     my_app.run(host="0.0.0.0", port=5000)
