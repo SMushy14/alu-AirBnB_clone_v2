@@ -2,9 +2,12 @@
 
 """A script that starts a Flask web application
 listening on 0.0.0.0, port 5000 at the /route display
-Hello HBNB!, at /hbnb route display HBNB and at
-/c/<text> display C followed by the value of the
-text variable, replace underscore _ symbols with a space"""
+Hello HBNB!, at /hbnb route display HBNB /c/<text>
+display C followed by the value of the text variable,
+replace underscore _ symbols with a space and at
+/python/(<text>) display Python followed by the value
+of the text variable (replace underscore _ symbols with a space
+while default value of text is ~is cool"""
 
 from flask import Flask
 
@@ -27,7 +30,7 @@ def text_display(text):
 
 
 @my_app.route('/python/', defaults={'text': 'is cool'}, strict_slashes=False)
-@my_app.route('/python/(<text>)', strict_slashes=False)
+@my_app.route('/python/<text>', strict_slashes=False)
 def python_text(text):
     return "Python {}".format(text.replace('_', ' '))
 
