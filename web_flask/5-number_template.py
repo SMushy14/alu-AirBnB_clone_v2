@@ -7,8 +7,10 @@ display C followed by the value of the text variable,
 replace underscore _ symbols with a space, at
 /python/(<text>) display Python followed by the value
 of the text variable (replace underscore _ symbols with a space
-while default value of text is ~is cool and at /number/<n>
-display n is a number only if n is an integer"""
+while default value of text is ~is cool, at /number/<n>
+display n is a number only if n is an integer and at
+/number_template/<n> display a HTML page only if n is an integer:
+H1 tag: “Number: n” inside the tag BODY"""
 
 from flask import Flask, render_template
 
