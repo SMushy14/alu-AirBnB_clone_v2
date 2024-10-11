@@ -12,10 +12,8 @@ class State(BaseModel, Base):
     """ State class """
     __tablename__ = 'states'
     
-    # Column definition only for DBStorage
     name = Column(String(128), nullable=False) if os.getenv('HBNB_TYPE_STORAGE') == 'db' else ''
-
-    # Relationship for DBStorage
+    
     if os.getenv('HBNB_TYPE_STORAGE') == 'db':
         cities = relationship(
             'City',
