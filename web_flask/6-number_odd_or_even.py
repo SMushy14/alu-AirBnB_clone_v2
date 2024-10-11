@@ -10,7 +10,7 @@ of the text variable (replace underscore _ symbols with a space
 while default value of text is ~is cool, at /number/<n>
 display n is a number only if n is an integer and at
 /number_template/<n> display a HTML page only if n is an integer:
-H1 tag: “Number: n” inside the tag BODY"""
+H1 tag: Number: n inside the tag BODY"""
 
 from flask import Flask, render_template
 
@@ -54,7 +54,7 @@ def number_odd_or_even(n):
         status = "even"
     else:
         status = "odd"
-    return render_template('6-number_odd_or_even', n=n, status=status)
+    return render_template('6-number_odd_or_even.html', n=n, status=status)
 
 if __name__ == "__main__":
     my_app.run(host="0.0.0.0", port=5000)
