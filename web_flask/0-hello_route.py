@@ -1,11 +1,12 @@
 #!/usr/bin/python3
 
-"""A script that starts a Flask web application 
+"""A script that starts a Flask web application
 listening on 0.0.0.0, port 5000 display Hello HBNB! """
 
 from flask import Flask
 
 my_app = Flask(__name__)
+
 
 @my_app.route('/', strict_slashes=False)
 def hello_hbnb():
