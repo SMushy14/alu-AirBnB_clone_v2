@@ -67,8 +67,8 @@ class FileStorage:
 
     def delete(self, obj=None):
         """
-         Delete obj from __objects if it’s inside - if obj is equal to None,
-           the method should not do anything
+        Delete obj from __objects if it’s inside - if obj is equal to None,
+        the method should not do anything
         """
         if obj is None:
             return
@@ -80,3 +80,7 @@ class FileStorage:
             pass
         except KeyboardInterrupt:
             pass
+
+    def close(self):
+        """Call the reload method to deserialize the JSON file to objects."""
+        self.reload()
