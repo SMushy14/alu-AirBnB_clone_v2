@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
-"""A script that starts a Flask web application listening on 0.0.0.0, port 5000 display Hello HBNB! """
+"""A script that starts a Flask web application 
+listening on 0.0.0.0, port 5000 display Hello HBNB! """
 
 from flask import Flask
 
@@ -12,4 +13,3 @@ def hello_hbnb():
 
 if __name__ == "__main__":
     my_app.run(host="0.0.0.0", port=5000)
-
