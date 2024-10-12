@@ -1,18 +1,15 @@
 #!/usr/bin/python3
+"""A script that starts a Flask web application.
 
-"""A script that starts a Flask web application:
-Your web application must be listening on 0.0.0.0, port 5000
-You must use storage for fetching data from the storage engine (FileStorage or DBStorage) => from models import storage and storage.all(...)
-After each request you must remove the current SQLAlchemy Session:
-Declare a method to handle @app.teardown_appcontext
-Call in this method storage.close()
+This web application listens on 0.0.0.0 at port 5000. It fetches data
+from the storage engine (FileStorage or DBStorage) and displays a list
+of all State objects present in the database.
+
 Routes:
-/states_list: display a HTML page: (inside the tag BODY)
-H1 tag: “States”
-UL tag: with the list of all State objects present in DBStorage sorted by name (A->Z) tip
-LI tag: description of one State: <state.id>: <B><state.name></B>
-Import this 7-dump to have some data
-You must use the option strict_slashes=False in your route definition"""
+    - /states_list: Displays an HTML page with a list of states sorted
+      by name (A to Z). Each state is shown in a list item with its
+      ID and name.
+"""
 
 from flask import Flask, render_template
 from models import storage
@@ -20,17 +17,31 @@ from models.state import State
 
 app = Flask(__name__)
 
-
 @app.route("/states_list", strict_slashes=False)
 def states_list():
+    """Displays a list of all State objects in the database.
+
+    Retrieves all states from the storage, sorts them by name, and
+    renders them in an HTML template.
+
+    Returns:
+        str: Rendered HTML template containing the list of states.
+    """
     states = sorted(list(storage.all(State).values()), key=lambda x: x.name)
     return render_template("7-states_list.html", states=states)
 
-
 @app.teardown_appcontext
 def close_session(exception):
+    """Closes the current SQLAlchemy session after each request.
+
+    This function is called automatically at the end of each request
+    to clean up the resources and close the session.
+
+    Args:
+        exception: Any exception raised during the request.
+    """
     storage.close()
 
-
 if __name__ == '__main__':
+    # Run the Flask application
     app.run(host='0.0.0.0', port=5000, debug=True)
