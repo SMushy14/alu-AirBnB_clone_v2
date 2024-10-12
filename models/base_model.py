@@ -27,7 +27,7 @@ class BaseModel:
         else:
             for key, value in kwargs.items():
                 if (key not in expected_keys and key != '__class__'):
-                    raise KeyError(f"Unexpected key: {key}")
+                    raise KeyError("Unexpected key: {}".format(key))
 
                 if key in ('created_at', 'updated_at'):
                     setattr(self, key, datetime.fromisoformat(value))
