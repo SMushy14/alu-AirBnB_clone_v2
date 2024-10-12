@@ -1,47 +1,31 @@
 #!/usr/bin/python3
-"""A script that starts a Flask web application.
-
-This web application listens on 0.0.0.0 at port 5000. It fetches data
-from the storage engine (FileStorage or DBStorage) and displays a list
-of all State objects present in the database.
-
-Routes:
-    - /states_list: Displays an HTML page with a list of states sorted
-      by name (A to Z). Each state is shown in a list item with its
-      ID and name.
+"""Start web application with two routings
 """
 
-from flask import Flask, render_template
 from models import storage
 from models.state import State
-
+from flask import Flask, render_template
 app = Flask(__name__)
 
-@app.route("/states_list", strict_slashes=False)
+
+@app.route('/states_list')
 def states_list():
-    """Displays a list of all State objects in the database.
-
-    Retrieves all states from the storage, sorts them by name, and
-    renders them in an HTML template.
-
-    Returns:
-        str: Rendered HTML template containing the list of states.
+    """Render template with states
     """
-    states = sorted(list(storage.all(State).values()), key=lambda x: x.name)
-    return render_template("7-states_list.html", states=states)
+    path = '7-states_list.html'
+    states = storage.all(State)
+    # sort State object alphabetically by name
+    sorted_states = sorted(states.values(), key=lambda state: state.name)
+    return render_template(path, sorted_states=sorted_states)
+
 
 @app.teardown_appcontext
-def close_session(exception):
-    """Closes the current SQLAlchemy session after each request.
-
-    This function is called automatically at the end of each request
-    to clean up the resources and close the session.
-
-    Args:
-        exception: Any exception raised during the request.
+def app_teardown(arg=None):
+    """Clean-up session
     """
     storage.close()
 
+
 if __name__ == '__main__':
-    # Run the Flask application
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.url_map.strict_slashes = False
+    app.run(host='0.0.0.0', port=5000)
