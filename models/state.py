@@ -24,8 +24,8 @@ class State(BaseModel, Base):
         @property
         def cities(self):
             """Returns the cities in this State"""
-           city_list = []
-        for city in models.storage.all(City):
-            if citystate_id == self.id:
-                city_list.append(city)
-        return city_list        
+            city_list = []
+            for city in models.storage.all(City):
+                if citystate_id == self.id:
+                    city_list.append(city)
+            return city_list        
