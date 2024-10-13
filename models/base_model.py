@@ -3,7 +3,7 @@
 import os
 import uuid
 from datetime import datetime
-from sqlalchemy import Column, String, DATETIME
+from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 
 
@@ -13,8 +13,8 @@ Base = declarative_base()
 class BaseModel:
     """A base class for all hbnb models"""
     id = Column(String(60), nullable=False, primary_key=True, unique=True)
-    created_at = Column(DATETIME, nullable=False, default=datetime.utcnow())
-    updated_at = Column(DATETIME, nullable=False, default=datetime.utcnow())
+    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)  # No parentheses
+    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow)  # No parentheses
 
     def __init__(self, *args, **kwargs):
         """Instantiates a new model"""
@@ -26,21 +26,24 @@ class BaseModel:
             self.updated_at = datetime.now()
         else:
             for key, value in kwargs.items():
-                if (key not in expected_keys and key != '__class__'):
+                if key not in expected_keys and key != '__class__':
                     raise KeyError("Unexpected key: {}".format(key))
 
                 if key in ('created_at', 'updated_at'):
-                    setattr(self, key, datetime.fromisoformat(value))
+                    try:
+                        setattr(self, key, datetime.fromisoformat(value))
+                    except ValueError:
+                        raise ValueError("Incorrect date format for key: {}".format(key))
                 else:
                     setattr(self, key, value)
 
-            # if os.getenv('HBNB_TYPE_STORAGE') in ('db'):
-            if not hasattr(kwargs, 'id'):
-                setattr(self, 'id', str(uuid.uuid4()))
-            if not hasattr(kwargs, 'created_at'):
-                setattr(self, 'created_at', datetime.now())
-            if not hasattr(kwargs, 'updated_at'):
-                setattr(self, 'updated_at', datetime.now())
+            # Set defaults if not provided in kwargs
+            if 'id' not in kwargs:
+                self.id = str(uuid.uuid4())
+            if 'created_at' not in kwargs:
+                self.created_at = datetime.now()
+            if 'updated_at' not in kwargs:
+                self.updated_at = datetime.now()
 
     def __str__(self):
         """Returns a string representation of the instance"""
